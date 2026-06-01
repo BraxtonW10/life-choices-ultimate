@@ -1,235 +1,338 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Life Choices Ultimate</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Car Life Simulator</title>
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-body{
-background:#0f172a;
-color:white;
-padding:15px;
-}
-.card{
-background:#1e293b;
-border-radius:16px;
-padding:15px;
-margin-bottom:12px;
-}
-h1{
-margin-bottom:10px;
-}
-input{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-margin-top:10px;
-}
-button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-background:#3b82f6;
-color:white;
-font-weight:bold;
-}
-.nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-display:flex;
-background:#1e293b;
-}
-.nav button{
-margin:0;
-border-radius:0;
-}
-.hidden{
-display:none;
-}
-.stat{
-margin-top:8px;
-}
+  body { font-family: Arial, sans-serif; background: #222; color: #fff; margin: 0; padding: 20px; }
+  #game { max-width: 900px; margin: auto; background: #333; padding: 20px; border-radius: 10px; }
+  h1 { text-align: center; margin-bottom: 20px; }
+  #menu, #gameplay, #carMenu { display: none; }
+  button { padding: 10px 20px; margin: 10px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
+  #startBtn { background-color: #4CAF50; color: white; }
+  #loadBtn { background-color: #2196F3; color: white; }
+  #restart { background-color: #f44336; color: white; margin-top: 20px; }
+  #stats { margin-top: 20px; }
+  .stat { margin: 10px 0; }
+  #choices { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .car-info { margin-top: 10px; background: #555; padding: 10px; border-radius: 8px; }
+  #log { margin-top: 20px; max-height: 200px; overflow-y: auto; background: #444; padding: 10px; border-radius: 8px; }
 </style>
 </head>
 <body>
-<div id="setup">
-<div class="card">
-<h1>🌎 Life Choices Ultimate</h1>
-<input id="name" placeholder="Enter Name">
-<button onclick="startLife()">
-👶 Start Life
-</button>
-</div>
-</div>
-<div id="game" class="hidden">
-<div class="card">
-<h2 id="playerName"></h2>
-<div class="stat">
-🎂 Age:
-<span id="age">0</span>
-</div>
-<div class="stat">
-💰 Money:
-$<span id="money">0</span>
-</div>
-<div class="stat">
-🧠 Smarts:
-<span id="smart">75</span>
-</div>
-<div class="stat">
-❤️ Happiness:
-<span id="happy">75</span>
-</div>
-<div class="stat">
-💪 Health:
-<span id="health">75</span>
-</div>
-<div class="stat">
-😎 Looks:
-<span id="looks">75</span>
-</div>
-</div>
-<div class="card">
-<h3>📖 Event</h3>
-<p id="event">
-Welcome to Life Choices Ultimate
-</p>
-<button onclick="ageUp()">
-🎂 Age Up
-</button>
-</div>
-<div id="homePage">
-<div class="card">
-🏠 Home
-</div>
-</div>
-<div id="careerPage" class="hidden">
-<div class="card">
-<h3>💼 Career</h3>
 
-🎓 Education
-📄 Apply For Job
-📈 Promotion
+<div id="game">
+  <h1>🚗 Car Life Simulator</h1>
+  
+  <!-- Main Menu -->
+  <div id="menu">
+    <button id="startBtn">Start New Game</button>
+    <button id="loadBtn">Load Game</button>
+  </div>
+  
+  <!-- Game Play -->
+  <div id="gameplay">
+    <div id="status"></div>
+    <div id="stats"></div>
+    <div id="carStats" class="car-info"></div>
+    <div id="choices"></div>
+    <button id="nextBtn" style="display:none;">Next</button>
+    <button id="menuBtn" style="display:none;">Main Menu</button>
+    <div id="log"></div>
+  </div>
+  
+  <!-- Car Menu -->
+  <div id="carMenu" style="display:none;">
+    <h2>Car Collection & Upgrades</h2>
+    <div id="carList"></div>
+    <button id="backToGame">Back to Game</button>
+  </div>
+</div>
 
-</div>
-</div>
-<div id="socialPage" class="hidden">
-<div class="card">
-<h3>📱 Social Media</h3>
-
-Create Account
-Post Video
-Go Live
-
-</div>
-</div>
-<div id="lifePage" class="hidden">
-<div class="card">
-<h3>❤️ Life</h3>
-
-Find Date
-Talk To Family
-
-</div>
-</div>
-<div id="crimePage" class="hidden">
-<div class="card">
-<h3>🚔 Crime</h3>
-
-Shoplift
-Vandalize
-Steal Car
-
-</div>
-</div>
-<div class="nav">
-<button onclick="showPage('home')">
-🏠
-</button>
-<button onclick="showPage('career')">
-💼
-</button>
-<button onclick="showPage('social')">
-📱
-</button>
-<button onclick="showPage('life')">
-❤️
-</button>
-<button onclick="showPage('crime')">
-🚔
-</button>
-</div>
-</div>
 <script>
-let player={};
-function startLife(){
-player={
-name:document.getElementById("name").value || "Alex",
-age:0,
-money:0,
-smart:75,
-happy:75,
-health:75,
-looks:75
-};
-document.getElementById("setup").classList.add("hidden");
-document.getElementById("game").classList.remove("hidden");
-updateStats();
-}
-function updateStats(){
-document.getElementById("playerName").innerHTML=
-player.name;
-document.getElementById("age").innerHTML=
-player.age;
-document.getElementById("money").innerHTML=
-player.money;
-document.getElementById("smart").innerHTML=
-player.smart;
-document.getElementById("happy").innerHTML=
-player.happy;
-document.getElementById("health").innerHTML=
-player.health;
-document.getElementById("looks").innerHTML=
-player.looks;
-}
-function ageUp(){
-player.age++;
-document.getElementById("event").innerHTML=
-"🎂 You are now age " + player.age;
-updateStats();
-}
-function showPage(page){
-document.getElementById("homePage").classList.add("hidden");
-document.getElementById("careerPage").classList.add("hidden");
-document.getElementById("socialPage").classList.add("hidden");
-document.getElementById("lifePage").classList.add("hidden");
-document.getElementById("crimePage").classList.add("hidden");
-if(page==="home"){
-document.getElementById("homePage").classList.remove("hidden");
-}
-if(page==="career"){
-document.getElementById("careerPage").classList.remove("hidden");
-}
-if(page==="social"){
-document.getElementById("socialPage").classList.remove("hidden");
-}
-if(page==="life"){
-document.getElementById("lifePage").classList.remove("hidden");
-}
-if(page==="crime"){
-document.getElementById("crimePage").classList.remove("hidden");
-}
-}
+  // Elements
+  const menuDiv = document.getElementById('menu');
+  const gameplayDiv = document.getElementById('gameplay');
+  const carMenuDiv = document.getElementById('carMenu');
+  const statusDiv = document.getElementById('status');
+  const statsDiv = document.getElementById('stats');
+  const choicesDiv = document.getElementById('choices');
+  const logDiv = document.getElementById('log');
+  const nextBtn = document.getElementById('nextBtn');
+  const menuBtn = document.getElementById('menuBtn');
+  const startBtn = document.getElementById('startBtn');
+  const loadBtn = document.getElementById('loadBtn');
+  const backToGameBtn = document.getElementById('backToGame');
+  const carListDiv = document.getElementById('carList');
+  const carInfoDiv = document.getElementById('carStats');
+
+  let gameState = {};
+
+  // Define cars
+  const cars = [
+    { name: 'Basic Sedan', speed: 50, luxury: 30, price: 5000 },
+    { name: 'Hellcat', speed: 80, luxury: 50, price: 20000 },
+    { name: 'Lamborghini', speed: 100, luxury: 80, price: 50000 },
+    { name: 'Tesla Model S', speed: 90, luxury: 70, price: 40000 },
+    { name: 'Bugatti', speed: 120, luxury: 100, price: 150000 }
+  ];
+
+  // Initialize game
+  function newGame() {
+    gameState = {
+      age: 20,
+      money: 10000,
+      happiness: 50,
+      health: 100,
+      car: {...cars[0]}, // start with basic
+      carIndex: 0,
+      lifeStage: 'Young Adult',
+      gameOver: false,
+      logMessages: [],
+      eventCount: 0
+    };
+    saveGame();
+    showGame();
+    startLife();
+  }
+
+  function saveGame() {
+    localStorage.setItem('carLifeSave', JSON.stringify(gameState));
+  }
+
+  function loadGame() {
+    const saved = localStorage.getItem('carLifeSave');
+    if(saved) {
+      gameState = JSON.parse(saved);
+      showGame();
+      startLife();
+    } else {
+      alert('No saved game found.');
+    }
+  }
+
+  function showGame() {
+    menuDiv.style.display = 'none';
+    gameplayDiv.style.display = 'block';
+    carMenuDiv.style.display = 'none';
+    updateStats();
+    updateCarInfo();
+    logMessage('Game loaded.');
+  }
+
+  function showMenu() {
+    menuDiv.style.display = 'block';
+    gameplayDiv.style.display = 'none';
+    carMenuDiv.style.display = 'none';
+  }
+
+  function showCarMenu() {
+    carListDiv.innerHTML = '';
+    cars.forEach((car, index) => {
+      const btn = document.createElement('button');
+      btn.innerText = `${car.name} - Speed: ${car.speed} - Luxury: ${car.luxury} - Price: $${car.price}`;
+      btn.onclick = () => buyCar(index);
+      carListDiv.appendChild(btn);
+    });
+    carInfoDiv.innerHTML = `
+      <h3>Current Car:</h3>
+      <p>${gameState.car.name} - Speed: ${gameState.car.speed}, Luxury: ${gameState.car.luxury}</p>
+    `;
+    document.getElementById('carMenu').style.display = 'block';
+    document.getElementById('game').style.display = 'none';
+  }
+
+  function buyCar(index) {
+    const car = cars[index];
+    if(gameState.money >= car.price) {
+      gameState.money -= car.price;
+      gameState.car = {...car};
+      gameState.carIndex = index;
+      saveGame();
+      alert(`You bought ${car.name}!`);
+      showCarMenu();
+      updateCarInfo();
+    } else {
+      alert("Not enough money");
+    }
+  }
+
+  function updateStats() {
+    document.getElementById('stats').innerHTML = `
+      <div class="stat">Age: ${gameState.age}</div>
+      <div class="stat">Money: $${gameState.money}</div>
+      <div class="stat">Happiness: ${gameState.happiness}</div>
+      <div class="stat">Health: ${gameState.health}</div>
+    `;
+  }
+
+  function updateCarInfo() {
+    document.getElementById('carStats').innerHTML = `
+      <h3>Car: ${gameState.car.name}</h3>
+      <p>Speed: ${gameState.car.speed}</p>
+      <p>Luxury: ${gameState.car.luxury}</p>
+      <button onclick="showCarMenu()">Change Car</button>
+    `;
+  }
+
+  function logMessage(message) {
+    gameState.logMessages.push(message);
+    if(gameState.logMessages.length > 50) gameState.logMessages.shift();
+    logDiv.innerHTML = gameState.logMessages.join('<br>');
+  }
+
+  // Start life with a sequence of choices
+  let currentStage = '';
+
+  function startLife() {
+    gameState.age = 20;
+    gameState.happiness = 50;
+    gameState.health = 100;
+    gameState.money = 10000;
+    gameState.eventCount = 0;
+    gameState.gameOver = false;
+    logMessage('Your new life begins!');
+    mainLifeStage();
+  }
+
+  function mainLifeStage() {
+    // Clear choices
+    choicesDiv.innerHTML = '';
+    nextBtn.style.display = 'none';
+
+    // Show options based on age/stage
+    if(gameState.age >= 80 || gameState.health <= 0 || gameState.happiness <= 0) {
+      gameOver();
+      return;
+    }
+
+    // Different stages
+    if(gameState.age < 30) {
+      showChoices([
+        { text: 'Go to college', effect: () => { gameState.money -= 5000; logMessage('You paid for college.'); } },
+        { text: 'Start working', effect: () => { 
+          const income = Math.floor(Math.random() * 3000 + 2000);
+          gameState.money += income;
+          logMessage(`You earned $${income} from your job.`);
+        }},
+        { text: 'Buy a car', effect: () => { showCarMenu(); } },
+        { text: 'Make friends', effect: () => { gameState.happiness = Math.min(gameState.happiness + 10, 100); logMessage('You made new friends!'); } },
+        { text: 'Stay home', effect: () => { gameState.happiness -= 5; logMessage('You stayed home and got bored.'); } }
+      ]);
+    } else if(gameState.age >=30 && gameState.age <50) {
+      showChoices([
+        { text: 'Invest in stocks', effect: () => {
+          const gain = Math.floor(Math.random() * 10000);
+          gameState.money += gain;
+          logMessage(`Your investments paid off! +$${gain}`);
+        }},
+        { text: 'Buy a luxury car', effect: () => { showCarMenu(); } },
+        { text: 'Go on vacation', effect: () => {
+          if(gameState.money >= 3000) {
+            gameState.money -= 3000; 
+            gameState.happiness = Math.min(gameState.happiness + 20, 100);
+            logMessage('Vacation boosted your happiness!');
+          } else {
+            logMessage('Not enough money for vacation.');
+          }
+        }},
+        { text: 'Work late', effect: () => {
+          gameState.health -= 10;
+          gameState.happiness -= 5;
+          logMessage('Work stress decreased health and happiness.');
+        }}
+      ]);
+    } else {
+      showChoices([
+        { text: 'Plan for retirement', effect: () => {
+          gameState.money += 5000;
+          logMessage('You saved some money for retirement.');
+        }},
+        { text: 'Spend time with family', effect: () => {
+          gameState.happiness = Math.min(gameState.happiness + 15, 100);
+          logMessage('Family time increased happiness.');
+        }},
+        { text: 'Take health supplements', effect: () => {
+          gameState.health = Math.min(gameState.health + 10, 100);
+          logMessage('Health improved.');
+        }},
+        { text: 'Drive your car', effect: () => { driveEvent(); } }
+      ]);
+    }
+
+    // Next button to age up
+    nextBtn.style.display = 'block';
+    nextBtn.onclick = () => {
+      gameState.age += 1;
+      // Natural stat drops
+      if(gameState.age > 50 && Math.random() < 0.3) {
+        gameState.health -= Math.floor(Math.random() * 5 + 1);
+      }
+      if(gameState.age > 60 && Math.random() < 0.2) {
+        gameState.happiness -= Math.floor(Math.random() * 3 + 1);
+      }
+      saveGame();
+      updateStats();
+      mainLifeStage();
+    };
+  }
+
+  function showChoices(choices) {
+    choicesDiv.innerHTML = '';
+    choices.forEach(c => {
+      const btn = document.createElement('button');
+      btn.innerText = c.text;
+      btn.onclick = () => {
+        c.effect();
+        logMessage(`Choice: ${c.text}`);
+        saveGame();
+        mainLifeStage();
+      };
+      choicesDiv.appendChild(btn);
+    });
+  }
+
+  function gameOver() {
+    logMessage('Game Over! You have lived a full life.');
+    choicesDiv.innerHTML = '';
+    nextBtn.style.display = 'none';
+    document.getElementById('menuBtn').style.display = 'block';
+  }
+
+  function driveEvent() {
+    const eventChance = Math.random();
+    if(eventChance < 0.4) {
+      // Accident
+      const damage = Math.floor(Math.random() * 20 + 10);
+      gameState.health -= damage;
+      logMessage(`Car accident! Lost ${damage} health.`);
+    } else if(eventChance < 0.7) {
+      // Speed boost
+      gameState.car.speed += 10;
+      logMessage('You had a fun drive! Car speed increased.');
+    } else {
+      logMessage('Smooth drive, no events.');
+    }
+  }
+
+  // Event handlers
+  document.getElementById('startBtn').onclick = () => {
+    newGame();
+  };
+  document.getElementById('loadBtn').onclick = () => {
+    loadGame();
+  };
+  document.getElementById('menuBtn').onclick = () => {
+    showMenu();
+  };
+  document.getElementById('backToGame').onclick = () => {
+    document.getElementById('carMenu').style.display = 'none';
+    document.getElementById('game').style.display = 'block';
+  };
+
+  // Show main menu initially
+  showMenu();
 </script>
 </body>
-</htm
+</html>
