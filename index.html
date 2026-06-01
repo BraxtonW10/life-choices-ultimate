@@ -6,18 +6,18 @@
 
 <style>
 body{
-background:#0f172a;
+background:#111827;
 color:white;
-font-family:Arial;
+font-family:Arial,sans-serif;
 margin:0;
 padding:15px;
 }
 
 .card{
-background:#1e293b;
+background:#1f2937;
 padding:15px;
 border-radius:12px;
-margin-bottom:10px;
+margin-bottom:12px;
 }
 
 button{
@@ -31,18 +31,12 @@ color:white;
 font-weight:bold;
 }
 
-input,select{
-width:100%;
-padding:12px;
-margin-top:8px;
-border:none;
-border-radius:8px;
+.hidden{
+display:none;
 }
 
-.menu{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
+.stat{
+margin:4px 0;
 }
 </style>
 </head>
@@ -53,19 +47,8 @@ gap:8px;
 
 <h1>🌎 Life Choices Ultimate</h1>
 
-<input id="name" placeholder="Enter Name">
-
-<select id="gender">
-<option>Male</option>
-<option>Female</option>
-</select>
-
-<select id="country">
-<option>USA</option>
-<option>Canada</option>
-<option>UK</option>
-<option>Australia</option>
-</select>
+<input id="name" placeholder="Name"
+style="width:100%;padding:10px;border-radius:8px;">
 
 <button onclick="startLife()">
 👶 Begin Life
@@ -73,68 +56,126 @@ gap:8px;
 
 </div>
 
-<div id="game" style="display:none;">
+<div id="game" class="hidden">
 
 <div class="card">
 
 <h2 id="playerName"></h2>
 
-<p>🎂 Age: <span id="age">0</span></p>
-<p>💰 Money: $<span id="money">0</span></p>
-<p>🏠 Family: <span id="wealth">Poor</span></p>
+<div class="stat">🎂 Age: <span id="age">0</span></div>
+<div class="stat">💰 Money: $<span id="money">0</span></div>
 
-<p>🧠 Smarts: <span id="smart">75</span></p>
-<p>❤️ Happiness: <span id="happy">75</span></p>
-<p>💪 Health: <span id="health">75</span></p>
-<p>😎 Looks: <span id="looks">75</span></p>
-
-</div>
-
-<div class="card">
-
-<h3>📋 Menu</h3>
-
-<div class="menu">
-
-<button>👤 Profile</button>
-<button>📚 Education</button>
-
-<button>💼 Career</button>
-<button>❤️ Relationships</button>
-
-<button>👶 Family</button>
-<button>🚗 Assets</button>
-
-<button>📱 Social Media</button>
-<button>🚔 Crime</button>
-
-<button>🔒 Prison</button>
-<button>🏆 Achievements</button>
-
-</div>
+<div class="stat">🧠 Smarts: <span id="smart">75</span></div>
+<div class="stat">❤️ Happiness: <span id="happy">75</span></div>
+<div class="stat">💪 Health: <span id="health">75</span></div>
+<div class="stat">😎 Looks: <span id="looks">75</span></div>
 
 </div>
 
 <div class="card">
 
-<h3>📖 Event</h3>
+<h3>📖 Life Event</h3>
 
 <p id="event">
 Welcome to Life Choices Ultimate.
 </p>
 
-</div>
-
 <button onclick="ageUp()">
 🎂 Age Up
 </button>
-<button onclick="saveGame()">
-💾 Save
+
+<button onclick="openMenu()">
+☰ Activities
 </button>
 
-<button onclick="loadGame()">
-📂 Load
+</div>
+
+<div id="mainMenu" class="card hidden">
+
+<h3>☰ Activities</h3>
+
+<button onclick="showSection('education')">
+📚 Education
 </button>
+
+<button onclick="showSection('career')">
+💼 Career
+</button>
+
+<button onclick="showSection('relationships')">
+❤️ Relationships
+</button>
+
+<button onclick="showSection('family')">
+👶 Family
+</button>
+
+<button onclick="showSection('assets')">
+🚗 Assets
+</button>
+
+<button onclick="showSection('social')">
+📱 Social Media
+</button>
+
+<button onclick="showSection('crime')">
+🚔 Crime
+</button>
+
+<button onclick="showSection('achievements')">
+🏆 Achievements
+</button>
+
+</div>
+
+<div id="education" class="card hidden">
+<h3>📚 Education</h3>
+<button>Go To School</button>
+<button>Study Hard</button>
+</div>
+
+<div id="career" class="card hidden">
+<h3>💼 Career</h3>
+<button>Apply For Job</button>
+<button>Work Harder</button>
+<button>Ask For Raise</button>
+</div>
+
+<div id="relationships" class="card hidden">
+<h3>❤️ Relationships</h3>
+<button>Find Date</button>
+<button>Talk To Partner</button>
+</div>
+
+<div id="family" class="card hidden">
+<h3>👶 Family</h3>
+<button>Spend Time With Family</button>
+</div>
+
+<div id="assets" class="card hidden">
+<h3>🚗 Assets</h3>
+<button>Buy Car</button>
+<button>Buy House</button>
+</div>
+
+<div id="social" class="card hidden">
+<h3>📱 Social Media</h3>
+<button>Create Account</button>
+<button>Post Video</button>
+</div>
+
+<div id="crime" class="card hidden">
+<h3>🚔 Crime</h3>
+<button>Shoplift</button>
+<button>Vandalize</button>
+<button>Steal Car</button>
+</div>
+
+<div id="achievements" class="card hidden">
+<h3>🏆 Achievements</h3>
+<p>None Yet</p>
+</div>
+
 </div>
 
 <script>
@@ -143,50 +184,33 @@ let player={};
 
 function startLife(){
 
-const wealths=[
-"Poor",
-"Working Class",
-"Middle Class",
-"Upper Class",
-"Rich"
-];
-
 player={
-name:document.getElementById("name").value || "Alex",
-gender:document.getElementById("gender").value,
-country:document.getElementById("country").value,
+name:document.getElementById("name").value||"Alex",
 age:0,
 money:0,
-wealth:wealths[Math.floor(Math.random()*wealths.length)],
 smart:75,
 happy:75,
 health:75,
 looks:75
 };
 
-document.getElementById("setup").style.display="none";
-document.getElementById("game").style.display="block";
+document.getElementById("setup").classList.add("hidden");
+document.getElementById("game").classList.remove("hidden");
 
 updateStats();
-
-document.getElementById("event").innerHTML=
-"👶 You were born into a "+player.wealth+" family.";
 
 }
 
 function updateStats(){
 
 document.getElementById("playerName").innerHTML=
-player.name+" | "+player.country;
+player.name;
 
 document.getElementById("age").innerHTML=
 player.age;
 
 document.getElementById("money").innerHTML=
 player.money;
-
-document.getElementById("wealth").innerHTML=
-player.wealth;
 
 document.getElementById("smart").innerHTML=
 player.smart;
@@ -206,66 +230,43 @@ function ageUp(){
 
 player.age++;
 
-randomYearEvent();
+document.getElementById("event").innerHTML=
+"🎂 You are now age "+player.age;
 
 updateStats();
 
 }
-const randomEvents = [
-"📚 You got an A on a test.",
-"⚽ You joined a sports team.",
-"😎 You made a new friend.",
-"🎮 You spent the day gaming.",
-"📱 Your social media post got likes.",
-"🚔 You got caught skipping school.",
-"🎵 You learned a new instrument.",
-"🏆 You won a local competition."
+
+function openMenu(){
+
+document.getElementById("mainMenu")
+.classList.toggle("hidden");
+
+}
+
+function showSection(id){
+
+const sections=[
+"education",
+"career",
+"relationships",
+"family",
+"assets",
+"social",
+"crime",
+"achievements"
 ];
 
-function randomYearEvent(){
+sections.forEach(s=>{
+document.getElementById(s)
+.classList.add("hidden");
+});
 
-let event =
-randomEvents[
-Math.floor(Math.random()*randomEvents.length)
-];
-
-document.getElementById("event").innerHTML =
-event;
+document.getElementById(id)
+.classList.remove("hidden");
 
 }
 
-function saveGame(){
-
-localStorage.setItem(
-"lifeChoicesSave",
-JSON.stringify(player)
-);
-
-document.getElementById("event").innerHTML =
-"💾 Game Saved";
-
-}
-
-function loadGame(){
-
-let save =
-localStorage.getItem(
-"lifeChoicesSave"
-);
-
-if(save){
-
-player =
-JSON.parse(save);
-
-updateStats();
-
-document.getElementById("event").innerHTML =
-"📂 Game Loaded";
-
-}
-
-}
 </script>
 
 </body>
