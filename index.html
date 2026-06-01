@@ -128,7 +128,13 @@ Welcome to Life Choices Ultimate.
 <button onclick="ageUp()">
 🎂 Age Up
 </button>
+<button onclick="saveGame()">
+💾 Save
+</button>
 
+<button onclick="loadGame()">
+📂 Load
+</button>
 </div>
 
 <script>
@@ -200,8 +206,7 @@ function ageUp(){
 
 player.age++;
 
-document.getElementById("event").innerHTML=
-"🎂 You are now age "+player.age;
+randomYearEvent();
 
 updateStats();
 
