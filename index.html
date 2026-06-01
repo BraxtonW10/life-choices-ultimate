@@ -128,7 +128,6 @@ if(roll>98) wealth="Rich";
 
 player={
 name:document.getElementById("name").value || "Alex",
-gender:document.getElementById("gender").value,
 country:document.getElementById("country").value,
 age:0,
 money:0,
@@ -152,8 +151,7 @@ wealth;
 document.getElementById("event").innerHTML=
 "👶 You were born into a "+wealth+" family.";
 
-}
-
+} 
 function updateStats(){
 
 document.getElementById("age").innerText=player.age;
@@ -166,6 +164,7 @@ document.getElementById("looks").value=player.looks;
 document.getElementById("crime").value=player.crime;
 
 }
+
 function ageUp(){
 
 player.age++;
@@ -180,8 +179,8 @@ effectA:function(){
 player.smart+=5;
 },
 effectB:function(){
-player.happy+=2;
 player.smart-=3;
+player.happy+=2;
 }
 },
 
@@ -218,7 +217,6 @@ document.getElementById("event").innerHTML=
 event.text;
 
 document.getElementById("choices").innerHTML=
-
 '<button onclick="choiceA()">'+event.a+'</button>'+
 '<button onclick="choiceB()">'+event.b+'</button>';
 
@@ -245,3 +243,8 @@ updateStats();
 updateStats();
 
 }
+
+</script>
+
+</body>
+</html>
