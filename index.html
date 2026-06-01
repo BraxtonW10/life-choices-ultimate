@@ -206,7 +206,61 @@ document.getElementById("event").innerHTML=
 updateStats();
 
 }
+const randomEvents = [
+"📚 You got an A on a test.",
+"⚽ You joined a sports team.",
+"😎 You made a new friend.",
+"🎮 You spent the day gaming.",
+"📱 Your social media post got likes.",
+"🚔 You got caught skipping school.",
+"🎵 You learned a new instrument.",
+"🏆 You won a local competition."
+];
 
+function randomYearEvent(){
+
+let event =
+randomEvents[
+Math.floor(Math.random()*randomEvents.length)
+];
+
+document.getElementById("event").innerHTML =
+event;
+
+}
+
+function saveGame(){
+
+localStorage.setItem(
+"lifeChoicesSave",
+JSON.stringify(player)
+);
+
+document.getElementById("event").innerHTML =
+"💾 Game Saved";
+
+}
+
+function loadGame(){
+
+let save =
+localStorage.getItem(
+"lifeChoicesSave"
+);
+
+if(save){
+
+player =
+JSON.parse(save);
+
+updateStats();
+
+document.getElementById("event").innerHTML =
+"📂 Game Loaded";
+
+}
+
+}
 </script>
 
 </body>
