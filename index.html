@@ -37,10 +37,6 @@ color:white;
 font-weight:bold;
 }
 
-.stat{
-margin:8px 0;
-}
-
 progress{
 width:100%;
 height:20px;
@@ -65,21 +61,21 @@ height:20px;
 <button onclick="startLife()">👶 Start Life</button>
 </div>
 
-<div id="game" style="display:none;">
+<div id="game" style="display:none">
 
 <div class="card">
 <h2 id="playerTitle"></h2>
 
-<div class="stat">❤️ Happiness</div>
+<p>❤️ Happiness</p>
 <progress value="75" max="100"></progress>
 
-<div class="stat">🧠 Smarts</div>
+<p>🧠 Smarts</p>
 <progress value="70" max="100"></progress>
 
-<div class="stat">💪 Health</div>
+<p>💪 Health</p>
 <progress value="90" max="100"></progress>
 
-<div class="stat">😎 Looks</div>
+<p>😎 Looks</p>
 <progress value="80" max="100"></progress>
 
 <p>🎂 Age: <span id="age">0</span></p>
@@ -96,7 +92,6 @@ height:20px;
 </div>
 
 <script>
-
 let age=0;
 let money=0;
 
@@ -104,32 +99,30 @@ function startLife(){
 let name=document.getElementById("name").value || "Alex";
 let country=document.getElementById("country").value;
 
-document.getElementById("playerTitle").innerHTML=
-"👤 "+name+" | 🌎 "+country;
+document.getElementById("playerTitle").innerHTML =
+"👤 " + name + " | 🌎 " + country;
 
 document.getElementById("creator").style.display="none";
 document.getElementById("game").style.display="block";
 }
 
 function ageUp(){
-
 age++;
-money+=100;
+money += 100;
 
-document.getElementById("age").innerHTML=age;
-document.getElementById("money").innerHTML=money;
+document.getElementById("age").innerText = age;
+document.getElementById("money").innerText = money;
 
-const events=[
+const events = [
 "You made a new friend.",
-"You had a great year.",
 "You found $50.",
 "You learned something useful.",
+"You had a great year.",
 "You discovered a new hobby."
 ];
 
-document.getElementById("event").innerHTML=
+document.getElementById("event").innerText =
 events[Math.floor(Math.random()*events.length)];
-
 }
 </script>
 
