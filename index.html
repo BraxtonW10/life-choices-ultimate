@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Life Choices Ultimate</title>
+
+<style>
+body{
+background:#0f172a;
+color:white;
+font-family:Arial;
+margin:0;
+padding:15px;
+}
+
+.card{
+background:#1e293b;
+padding:15px;
+border-radius:12px;
+margin-bottom:10px;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:8px;
+border:none;
+border-radius:8px;
+background:#2563eb;
+color:white;
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin-top:8px;
+border:none;
+border-radius:8px;
+}
+
+.menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="setup" class="card">
+
+<h1>🌎 Life Choices Ultimate</h1>
+
+<input id="name" placeholder="Enter Name">
+
+<select id="gender">
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<select id="country">
+<option>USA</option>
+<option>Canada</option>
+<option>UK</option>
+<option>Australia</option>
+</select>
+
+<button onclick="startLife()">
+👶 Begin Life
+</button>
+
+</div>
+
+<div id="game" style="display:none;">
+
+<div class="card">
+
+<h2 id="playerName"></h2>
+
+<p>🎂 Age: <span id="age">0</span></p>
+<p>💰 Money: $<span id="money">0</span></p>
+<p>🏠 Family: <span id="wealth">Poor</span></p>
+
+<p>🧠 Smarts: <span id="smart">75</span></p>
+<p>❤️ Happiness: <span id="happy">75</span></p>
+<p>💪 Health: <span id="health">75</span></p>
+<p>😎 Looks: <span id="looks">75</span></p>
+
+</div>
+
+<div class="card">
+
+<h3>📋 Menu</h3>
+
+<div class="menu">
+
+<button>👤 Profile</button>
+<button>📚 Education</button>
+
+<button>💼 Career</button>
+<button>❤️ Relationships</button>
+
+<button>👶 Family</button>
+<button>🚗 Assets</button>
+
+<button>📱 Social Media</button>
+<button>🚔 Crime</button>
+
+<button>🔒 Prison</button>
+<button>🏆 Achievements</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>📖 Event</h3>
+
+<p id="event">
+Welcome to Life Choices Ultimate.
+</p>
+
+</div>
+
+<button onclick="ageUp()">
+🎂 Age Up
+</button>
+
+</div>
+
+<script>
+
+let player={};
+
+function startLife(){
+
+const wealths=[
+"Poor",
+"Working Class",
+"Middle Class",
+"Upper Class",
+"Rich"
+];
+
+player={
+name:document.getElementById("name").value || "Alex",
+gender:document.getElementById("gender").value,
+country:document.getElementById("country").value,
+age:0,
+money:0,
+wealth:wealths[Math.floor(Math.random()*wealths.length)],
+smart:75,
+happy:75,
+health:75,
+looks:75
+};
+
+document.getElementById("setup").style.display="none";
+document.getElementById("game").style.display="block";
+
+updateStats();
+
+document.getElementById("event").innerHTML=
+"👶 You were born into a "+player.wealth+" family.";
+
+}
+
+function updateStats(){
+
+document.getElementById("playerName").innerHTML=
+player.name+" | "+player.country;
+
+document.getElementById("age").innerHTML=
+player.age;
+
+document.getElementById("money").innerHTML=
+player.money;
+
+document.getElementById("wealth").innerHTML=
+player.wealth;
+
+document.getElementById("smart").innerHTML=
+player.smart;
+
+document.getElementById("happy").innerHTML=
+player.happy;
+
+document.getElementById("health").innerHTML=
+player.health;
+
+document.getElementById("looks").innerHTML=
+player.looks;
+
+}
+
+function ageUp(){
+
+player.age++;
+
+document.getElementById("event").innerHTML=
+"🎂 You are now age "+player.age;
+
+updateStats();
+
+}
+
+</script>
+
+</body>
+</html>
