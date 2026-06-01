@@ -166,3 +166,82 @@ document.getElementById("looks").value=player.looks;
 document.getElementById("crime").value=player.crime;
 
 }
+function ageUp(){
+
+player.age++;
+
+let events=[
+
+{
+text:"📚 You got a bad grade in school.",
+a:"Study Hard",
+b:"Ignore It",
+effectA:function(){
+player.smart+=5;
+},
+effectB:function(){
+player.happy+=2;
+player.smart-=3;
+}
+},
+
+{
+text:"😎 Someone wants to be your friend.",
+a:"Become Friends",
+b:"Ignore",
+effectA:function(){
+player.happy+=5;
+},
+effectB:function(){
+player.happy-=3;
+}
+},
+
+{
+text:"💰 Grandma gives you $20.",
+a:"Save It",
+b:"Spend It",
+effectA:function(){
+player.money+=20;
+},
+effectB:function(){
+player.happy+=5;
+}
+}
+
+];
+
+let event=
+events[Math.floor(Math.random()*events.length)];
+
+document.getElementById("event").innerHTML=
+event.text;
+
+document.getElementById("choices").innerHTML=
+
+'<button onclick="choiceA()">'+event.a+'</button>'+
+'<button onclick="choiceB()">'+event.b+'</button>';
+
+window.choiceA=function(){
+
+event.effectA();
+
+document.getElementById("choices").innerHTML="";
+
+updateStats();
+
+};
+
+window.choiceB=function(){
+
+event.effectB();
+
+document.getElementById("choices").innerHTML="";
+
+updateStats();
+
+};
+
+updateStats();
+
+}
