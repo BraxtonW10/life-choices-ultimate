@@ -1,74 +1,165 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Life Choices Ultimate</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 20px auto;
-      padding: 15px;
-      background: #f4f4f4;
-    }
-
-    .card {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-
-    button {
-      padding: 10px;
-      margin-top: 10px;
-      width: 100%;
-    }
-  </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Life Choices Ultimate</title>
+<style>
+body{font-family:Arial;background:#f4f4f4;max-width:800px;margin:auto;padding:15px}
+.card{background:white;padding:15px;border-radius:10px;margin:10px 0}
+button,select,input{padding:10px;margin:5px;width:100%}
+.hidden{display:none}
+</style>
 </head>
 <body>
 
-  <div class="card">
-    <h1>🌎 Life Choices Ultimate</h1>
-    <p>Create your own life and make choices that shape your future.</p>
-  </div>
+<div id="creator" class="card">
+<h2>🌎 Create Your Life</h2>
 
-  <div class="card">
-    <p><b>Age:</b> <span id="age">0</span></p>
-    <p><b>Money:</b> $<span id="money">0</span></p>
-    <p><b>Career:</b> None</p>
+<input id="name" placeholder="Your Name">
 
-    <button onclick="ageUp()">🎂 Age Up</button>
-  </div>
+<select id="country">
+<option>USA</option>
+<option>Canada</option>
+<option>UK</option>
+<option>Australia</option>
+<option>Japan</option>
+</select>
 
-  <div class="card">
-    <h3>Life Events</h3>
-    <p id="event">You were born.</p>
-  </div>
+<select id="trait">
+<option>Smart</option>
+<option>Athletic</option>
+<option>Lucky</option>
+<option>Charismatic</option>
+<option>Ambitious</option>
+</select>
 
-  <script>
-    let age = 0;
-    let money = 0;
+<button onclick="startLife()">👶 Begin Life</button>
+</div>
 
-    function ageUp() {
-      age++;
-      money += 100;
+<div id="game" class="hidden">
 
-      document.getElementById("age").innerText = age;
-      document.getElementById("money").innerText = money;
+<div class="card">
+<b id="intro"></b><br><br>
+Age: <span id="age">0</span><br>
+Money: $<span id="money">0</span><br>
+Job: <span id="job">None</span>
+</div>
 
-      const events = [
-        "You made a new friend.",
-        "You had a great year.",
-        "You learned something useful.",
-        "You found $20.",
-        "You started a new hobby."
-      ];
+<div class="card">
+<h3>📖 Life Event</h3>
+<p id="event">Welcome to the world.</p>
+</div>
 
-      document.getElementById("event").innerText =
-        events[Math.floor(Math.random() * events.length)];
-    }
-  </script>
+<div class="card">
+<h3>🏆 Achievements</h3>
+<div id="achievements">None Yet</div>
+</div>
+
+<button onclick="ageUp()">🎂 Age Up</button>
+
+</div>
+
+<script>
+
+let player;
+let achievements=[];
+
+function unlock(a){
+ if(!achievements.includes(a)){
+  achievements.push(a);
+  document.getElementById("achievements").innerHTML=
+  achievements.join("<br>");
+ }
+}
+
+function startLife(){
+
+ let wealth="Poor";
+
+ let roll=Math.random()*100;
+
+ if(roll>40) wealth="Lower Middle Class";
+ if(roll>70) wealth="Middle Class";
+ if(roll>90) wealth="Upper Middle Class";
+ if(roll>98) wealth="Rich";
+
+ player={
+  name:document.getElementById("name").value || "Alex",
+  country:document.getElementById("country").value,
+  trait:document.getElementById("trait").value,
+  wealth:wealth,
+  age:0,
+  money:0,
+  job:"None"
+ };
+
+ document.getElementById("creator").classList.add("hidden");
+ document.getElementById("game").classList.remove("hidden");
+
+ document.getElementById("intro").innerHTML=
+ player.name+" was born in "+
+ player.country+
+ ". Family Wealth: "+wealth;
+
+}
+
+function ageUp(){
+
+ player.age++;
+
+ player.money+=100;
+
+ if(player.money>=1000) unlock("💰 First Thousand");
+ if(player.money>=100000) unlock("💵 Wealthy");
+ if(player.money>=1000000) unlock("🏆 Millionaire");
+
+ if(player.age===16){
+   document.getElementById("event").innerHTML=
+   "👔 You can now get a job.";
+   player.job="Part-Time Worker";
+   unlock("👔 First Job");
+ }
+
+ else if(player.age===18){
+   document.getElementById("event").innerHTML=
+   "🎓 You became an adult.";
+ }
+
+ else if(player.age===22){
+   player.job="Engineer";
+   player.money+=50000;
+   unlock("🎓 Career Started");
+   document.getElementById("event").innerHTML=
+   "💼 You became an Engineer.";
+ }
+
+ else if(player.age===30){
+   player.money+=100000;
+   unlock("🏢 Business Owner");
+   document.getElementById("event").innerHTML=
+   "🏢 You started a business.";
+ }
+
+ else{
+   const events=[
+   "You made a new friend.",
+   "You had a great year.",
+   "You learned something useful.",
+   "You found $20.",
+   "You discovered a new hobby."
+   ];
+
+   document.getElementById("event").innerHTML=
+   events[Math.floor(Math.random()*events.length)];
+ }
+
+ document.getElementById("age").innerHTML=player.age;
+ document.getElementById("money").innerHTML=player.money;
+ document.getElementById("job").innerHTML=player.job;
+
+}
+
+</script>
 
 </body>
 </html>
