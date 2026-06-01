@@ -1,51 +1,23 @@
-body{
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#1e293b,#0f172a);
-  color:white;
-  max-width:900px;
-  margin:auto;
-  padding:20px;
-}
+<div class="card">
+<h1>🌎 Life Choices Ultimate</h1>
+<p>Your choices create your future.</p>
 
-.card{
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:15px;
-  padding:20px;
-  margin-bottom:15px;
-}
+<hr>
 
-h1,h2,h3{
-  margin-top:0;
-}
+<p><b>👤 Name:</b> <span id="playerName">Unknown</span></p>
+<p><b>🌎 Country:</b> <span id="playerCountry">Unknown</span></p>
 
-button{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  background:#3b82f6;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-  transition:.2s;
-}
+<p>❤️ Happiness</p>
+<progress value="75" max="100"></progress>
 
-button:hover{
-  transform:scale(1.02);
-}
+<p>🧠 Smarts</p>
+<progress value="65" max="100"></progress>
 
-input,select{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  margin-bottom:10px;
-  box-sizing:border-box;
-}
+<p>💪 Health</p>
+<progress value="90" max="100"></progress>
 
-#achievements{
-  max-height:200px;
-  overflow-y:auto;
-}
+<p>😎 Looks</p>
+<progress value="70" max="100"></progress>
+
+<p><b>💰 Net Worth:</b> $<span id="netWorth">0</span></p>
+</div>
