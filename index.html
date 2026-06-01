@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Life Choices Ultimate</title>
 
 <style>
 body{
-font-family:Arial,sans-serif;
 background:#0f172a;
 color:white;
-max-width:800px;
+font-family:Arial;
+max-width:900px;
 margin:auto;
 padding:15px;
 }
@@ -19,16 +18,15 @@ padding:15px;
 background:#1e293b;
 padding:15px;
 border-radius:12px;
-margin-bottom:12px;
+margin-bottom:10px;
 }
 
-input,select,button{
+button,input,select{
 width:100%;
 padding:12px;
 margin-top:8px;
-border-radius:8px;
 border:none;
-box-sizing:border-box;
+border-radius:8px;
 }
 
 button{
@@ -46,10 +44,16 @@ height:20px;
 
 <body>
 
-<div id="creator" class="card">
+<div id="setup" class="card">
+
 <h1>🌎 Life Choices Ultimate</h1>
 
 <input id="name" placeholder="Name">
+
+<select id="gender">
+<option>Male</option>
+<option>Female</option>
+</select>
 
 <select id="country">
 <option>USA</option>
@@ -58,78 +62,107 @@ height:20px;
 <option>Australia</option>
 </select>
 
-<button onclick="startLife()">👶 Start Life</button>
+<button onclick="beginLife()">👶 Begin Life</button>
+
 </div>
 
-<div id="game" style="display:none">
+<div id="game" style="display:none;">
 
 <div class="card">
-<h2 id="playerTitle"></h2>
+
+<h2 id="title"></h2>
 
 <p>🎂 Age: <span id="age">0</span></p>
 <p>💰 Money: $<span id="money">0</span></p>
-<p>💼 Job: Unemployed</p>
-<p>🏠 Family: Middle Class</p>
+<p>🏠 Family: <span id="family">Poor</span></p>
 
 <p>❤️ Happiness</p>
-<progress value="75" max="100"></progress>
+<progress id="happy" value="70" max="100"></progress>
 
 <p>🧠 Smarts</p>
-<progress value="70" max="100"></progress>
+<progress id="smart" value="70" max="100"></progress>
 
 <p>💪 Health</p>
-<progress value="90" max="100"></progress>
+<progress id="health" value="80" max="100"></progress>
 
 <p>😎 Looks</p>
-<progress value="80" max="100"></progress>
+<progress id="looks" value="70" max="100"></progress>
 
-<p>🎂 Age: <span id="age">0</span></p>
-<p>💰 Money: $<span id="money">0</span></p>
+<p>👮 Crime</p>
+<progress id="crime" value="0" max="100"></progress>
+
 </div>
 
 <div class="card">
+
 <h3>📖 Life Event</h3>
-<p id="event">Welcome to the world.</p>
+
+<p id="event">
+Welcome to the world.
+</p>
+
+<div id="choices"></div>
+
 </div>
 
-<button onclick="ageUp()">🎂 Age Up</button>
+<button onclick="ageUp()">
+🎂 Age Up
+</button>
 
 </div>
 
 <script>
-let age=0;
-let money=0;
 
-function startLife(){
-let name=document.getElementById("name").value || "Alex";
-let country=document.getElementById("country").value;
+let player={};
 
-document.getElementById("playerTitle").innerHTML =
-"👤 " + name + " | 🌎 " + country;
+function beginLife(){
 
-document.getElementById("creator").style.display="none";
+let wealth="Poor";
+
+let roll=Math.random()*100;
+
+if(roll>45) wealth="Working Class";
+if(roll>75) wealth="Middle Class";
+if(roll>93) wealth="Upper Class";
+if(roll>98) wealth="Rich";
+
+player={
+name:document.getElementById("name").value || "Alex",
+gender:document.getElementById("gender").value,
+country:document.getElementById("country").value,
+age:0,
+money:0,
+wealth:wealth,
+happy:70,
+smart:70,
+health:80,
+looks:70,
+crime:0
+};
+
+document.getElementById("setup").style.display="none";
 document.getElementById("game").style.display="block";
+
+document.getElementById("title").innerHTML=
+"👤 "+player.name+" | 🌎 "+player.country;
+
+document.getElementById("family").innerText=
+wealth;
+
+document.getElementById("event").innerHTML=
+"👶 You were born into a "+wealth+" family.";
+
 }
 
-function ageUp(){
-age++;
-money += 100;
+function updateStats(){
 
-document.getElementById("age").innerText = age;
-document.getElementById("money").innerText = money;
+document.getElementById("age").innerText=player.age;
+document.getElementById("money").innerText=player.money;
 
-const events = [
-"You made a new friend.",
-"You found $50.",
-"You learned something useful.",
-"You had a great year.",
-"You discovered a new hobby."
-];
+document.getElementById("happy").value=player.happy;
+document.getElementById("smart").value=player.smart;
+document.getElementById("health").value=player.health;
+document.getElementById("looks").value=player.looks;
+document.getElementById("crime").value=player.crime;
 
-document.getElementById("event").innerText =
-events[Math.floor(Math.random()*events.length)];
 }
-</script>
-
-</body>
-</html>
