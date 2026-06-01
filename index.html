@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Life Choices Ultimate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 15px;
+      background: #f4f4f4;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🌎 Life Choices Ultimate</h1>
+    <p>Create your own life and make choices that shape your future.</p>
+  </div>
+
+  <div class="card">
+    <p><b>Age:</b> <span id="age">0</span></p>
+    <p><b>Money:</b> $<span id="money">0</span></p>
+    <p><b>Career:</b> None</p>
+
+    <button onclick="ageUp()">🎂 Age Up</button>
+  </div>
+
+  <div class="card">
+    <h3>Life Events</h3>
+    <p id="event">You were born.</p>
+  </div>
+
+  <script>
+    let age = 0;
+    let money = 0;
+
+    function ageUp() {
+      age++;
+      money += 100;
+
+      document.getElementById("age").innerText = age;
+      document.getElementById("money").innerText = money;
+
+      const events = [
+        "You made a new friend.",
+        "You had a great year.",
+        "You learned something useful.",
+        "You found $20.",
+        "You started a new hobby."
+      ];
+
+      document.getElementById("event").innerText =
+        events[Math.floor(Math.random() * events.length)];
+    }
+  </script>
+
+</body>
+</html>
