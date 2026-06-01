@@ -1,23 +1,137 @@
-<div class="card">
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Life Choices Ultimate</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#0f172a;
+color:white;
+max-width:800px;
+margin:auto;
+padding:15px;
+}
+
+.card{
+background:#1e293b;
+padding:15px;
+border-radius:12px;
+margin-bottom:12px;
+}
+
+input,select,button{
+width:100%;
+padding:12px;
+margin-top:8px;
+border-radius:8px;
+border:none;
+box-sizing:border-box;
+}
+
+button{
+background:#2563eb;
+color:white;
+font-weight:bold;
+}
+
+.stat{
+margin:8px 0;
+}
+
+progress{
+width:100%;
+height:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="creator" class="card">
 <h1>🌎 Life Choices Ultimate</h1>
-<p>Your choices create your future.</p>
 
-<hr>
+<input id="name" placeholder="Name">
 
-<p><b>👤 Name:</b> <span id="playerName">Unknown</span></p>
-<p><b>🌎 Country:</b> <span id="playerCountry">Unknown</span></p>
+<select id="country">
+<option>USA</option>
+<option>Canada</option>
+<option>UK</option>
+<option>Australia</option>
+</select>
 
-<p>❤️ Happiness</p>
+<button onclick="startLife()">👶 Start Life</button>
+</div>
+
+<div id="game" style="display:none;">
+
+<div class="card">
+<h2 id="playerTitle"></h2>
+
+<div class="stat">❤️ Happiness</div>
 <progress value="75" max="100"></progress>
 
-<p>🧠 Smarts</p>
-<progress value="65" max="100"></progress>
-
-<p>💪 Health</p>
-<progress value="90" max="100"></progress>
-
-<p>😎 Looks</p>
+<div class="stat">🧠 Smarts</div>
 <progress value="70" max="100"></progress>
 
-<p><b>💰 Net Worth:</b> $<span id="netWorth">0</span></p>
+<div class="stat">💪 Health</div>
+<progress value="90" max="100"></progress>
+
+<div class="stat">😎 Looks</div>
+<progress value="80" max="100"></progress>
+
+<p>🎂 Age: <span id="age">0</span></p>
+<p>💰 Money: $<span id="money">0</span></p>
 </div>
+
+<div class="card">
+<h3>📖 Life Event</h3>
+<p id="event">Welcome to the world.</p>
+</div>
+
+<button onclick="ageUp()">🎂 Age Up</button>
+
+</div>
+
+<script>
+
+let age=0;
+let money=0;
+
+function startLife(){
+let name=document.getElementById("name").value || "Alex";
+let country=document.getElementById("country").value;
+
+document.getElementById("playerTitle").innerHTML=
+"👤 "+name+" | 🌎 "+country;
+
+document.getElementById("creator").style.display="none";
+document.getElementById("game").style.display="block";
+}
+
+function ageUp(){
+
+age++;
+money+=100;
+
+document.getElementById("age").innerHTML=age;
+document.getElementById("money").innerHTML=money;
+
+const events=[
+"You made a new friend.",
+"You had a great year.",
+"You found $50.",
+"You learned something useful.",
+"You discovered a new hobby."
+];
+
+document.getElementById("event").innerHTML=
+events[Math.floor(Math.random()*events.length)];
+
+}
+</script>
+
+</body>
+</html>
